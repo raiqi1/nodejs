@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const multer  = require('multer')
+const multer  = require('multer');
 const upload = multer({ dest: 'uploads' });
 const fs = require("fs");
 const path = require('path');
@@ -27,17 +27,24 @@ router.post('/product',upload.single('image'),(req,res) => {
     if(image){
         const target = path.join(__dirname,'uploads',image.originalname);
         fs.renameSync(image.path,target);
-        // res.json({
-        //     name,
-        //     price,
-        //     stock,
-        //     status,
-        //     image
-        // });
-        res.sendFile(target);
+        res.json({
+            name,
+            price,
+            stock,
+            status,
+            image
+        });
+        // res.sendFile(target);
     }
     
 });
+
+router.post('/register',(req,res,next) => {
+    const{username,email,password} = req.body;
+    res.json({
+        username,email,password
+    })
+})
 
 // router.get('/:category/:tag',(req,res) => {
 //     const {category,tag} = req.params;
